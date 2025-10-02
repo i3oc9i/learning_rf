@@ -1,0 +1,28 @@
+# Virtual environment
+.venv/
+venv/
+
+# Robot Framework outputs
+log.html
+output.xml
+report.html
+selenium-screenshot-*.png
+results/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
