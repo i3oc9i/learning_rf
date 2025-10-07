@@ -6,6 +6,8 @@ Library           Collections
 
 *** Variables ***
 ${BASE_URL}       https://jsonplaceholder.typicode.com
+${RESPONSE}       ${None}
+${POST_DATA}      ${None}
 
 *** Test Cases ***
 Scenario: User Creates A Post And Then Updates It
@@ -47,15 +49,17 @@ the API is available
 I create a post with title "${title}" and body "${body}"
     &{post_data}=    Create Dictionary    title=${title}    body=${body}    userId=1
     ${response}=    POST On Session    api    /posts    json=${post_data}
+    ${response_data}=    Set Variable    ${response.json()}
     Set Test Variable    ${RESPONSE}    ${response}
-    Set Test Variable    ${POST_DATA}    ${response.json()}
+    Set Test Variable    ${POST_DATA}    ${response_data}
 
 I update the post with title "${new_title}"
     &{update_data}=    Create Dictionary    title=${new_title}
     ${post_id}=    Set Variable    ${POST_DATA}[id]
     ${response}=    PATCH On Session    api    /posts/${post_id}    json=${update_data}
+    ${response_data}=    Set Variable    ${response.json()}
     Set Test Variable    ${RESPONSE}    ${response}
-    Set Test Variable    ${POST_DATA}    ${response.json()}
+    Set Test Variable    ${POST_DATA}    ${response_data}
 
 I retrieve post "${post_id}"
     ${response}=    GET On Session    api    /posts/${post_id}
@@ -70,7 +74,8 @@ the creation should be successful
     Should Be Equal As Strings    ${RESPONSE.status_code}    201
 
 I should receive a post id
-    Should Not Be Empty    ${POST_DATA}[id]
+    Should Not Be Equal    ${POST_DATA}[id]    ${None}
+    Should Be True    ${POST_DATA}[id] > 0
 
 the update should be successful
     Should Be Equal As Strings    ${RESPONSE.status_code}    200
@@ -82,33 +87,39 @@ the post should exist
     Should Be Equal As Strings    ${RESPONSE.status_code}    200
 
 the response should contain comments
-    ${comments}=    Set Variable    ${RESPONSE.json()}
+    ${response_data}=    Set Variable    ${RESPONSE.json()}
+    ${comments}=    Set Variable    ${response_data}
     ${length}=    Get Length    ${comments}
     Should Be True    ${length} > 0
 
 each comment should have an email
-    ${comments}=    Set Variable    ${RESPONSE.json()}
+    ${response_data}=    Set Variable    ${RESPONSE.json()}
+    ${comments}=    Set Variable    ${response_data}
     FOR    ${comment}    IN    @{comments}
         Should Not Be Empty    ${comment}[email]
     END
 
 each comment should have a body
-    ${comments}=    Set Variable    ${RESPONSE.json()}
+    ${response_data}=    Set Variable    ${RESPONSE.json()}
+    ${comments}=    Set Variable    ${response_data}
     FOR    ${comment}    IN    @{comments}
         Should Not Be Empty    ${comment}[body]
     END
 
 the post should have all required fields
-    ${post}=    Set Variable    ${RESPONSE.json()}
+    ${response_data}=    Set Variable    ${RESPONSE.json()}
+    ${post}=    Set Variable    ${response_data}
     Dictionary Should Contain Key    ${post}    userId
     Dictionary Should Contain Key    ${post}    id
     Dictionary Should Contain Key    ${post}    title
     Dictionary Should Contain Key    ${post}    body
 
 the post userId should be a number
-    ${post}=    Set Variable    ${RESPONSE.json()}
+    ${response_data}=    Set Variable    ${RESPONSE.json()}
+    ${post}=    Set Variable    ${response_data}
     Should Be True    isinstance($post['userId'], int)
 
 the post id should be a number
-    ${post}=    Set Variable    ${RESPONSE.json()}
+    ${response_data}=    Set Variable    ${RESPONSE.json()}
+    ${post}=    Set Variable    ${response_data}
     Should Be True    isinstance($post['id'], int)

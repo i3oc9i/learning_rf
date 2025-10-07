@@ -6,6 +6,7 @@ Library           Collections
 
 *** Variables ***
 ${BASE_URL}       https://jsonplaceholder.typicode.com
+${RESPONSE}       ${None}
 
 *** Test Cases ***
 User Should Be Able To Retrieve A Post
@@ -58,7 +59,8 @@ the post should have a body
 
 the post should belong to a user
     ${json}=    Set Variable    ${RESPONSE.json()}
-    Should Not Be Empty    ${json}[userId]
+    Should Not Be Equal    ${json}[userId]    ${None}
+    Should Be True    ${json}[userId] > 0
 
 the response should contain the post title "${expected_title}"
     ${json}=    Set Variable    ${RESPONSE.json()}
@@ -70,4 +72,5 @@ the response should contain the post body "${expected_body}"
 
 the post should have an assigned id
     ${json}=    Set Variable    ${RESPONSE.json()}
-    Should Not Be Empty    ${json}[id]
+    Should Not Be Equal    ${json}[id]    ${None}
+    Should Be True    ${json}[id] > 0
