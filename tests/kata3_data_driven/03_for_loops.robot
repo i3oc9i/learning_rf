@@ -51,7 +51,8 @@ Create Multiple Posts In Loop
         Log    Created post with ID: ${created_post}[id]
     END
 
-    Log    Created ${post_ids.__len__()} posts with IDs: ${post_ids}
+    ${count}=    Get Length    ${post_ids}
+    Log    Created ${count} posts with IDs: ${post_ids}
 
 Nested Loop Example - Posts And Comments
     [Documentation]    Nested loops to check posts and their comments
@@ -70,13 +71,14 @@ Nested Loop Example - Posts And Comments
             Should Not Be Empty    ${comment}[body]
         END
 
-        Log    Post ${post_id} has ${comments.__len__()} valid comments
+        ${comment_count}=    Get Length    ${comments}
+        Log    Post ${post_id} has ${comment_count} valid comments
     END
 
 *** Keywords ***
 Validate User Structure
     [Arguments]    ${user}
-    Should Not Be Empty    ${user}[id]
+    Should Be True    ${user}[id] > 0
     Should Not Be Empty    ${user}[name]
     Should Not Be Empty    ${user}[username]
     Should Not Be Empty    ${user}[email]
