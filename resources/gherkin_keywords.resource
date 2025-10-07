@@ -5,6 +5,12 @@ Library           RequestsLibrary
 Library           Collections
 Resource          api_keywords.resource
 
+*** Variables ***
+# These variables are used to share state between Gherkin-style keywords
+# within a test case. They are set dynamically during test execution.
+${LAST_RESPONSE}      ${None}    # Stores the most recent API response
+${REQUEST_DATA}       ${None}    # Stores request data for POST/PUT/PATCH operations
+
 *** Keywords ***
 # ============================================================================
 # GIVEN Keywords - Setup and preconditions
@@ -128,3 +134,16 @@ And the response list should have "${length}" items
 
 And the response should not be empty
     Then the response should not be empty
+
+And I set request data
+    [Documentation]    Alias for setting request data (Given/When variant)
+    [Arguments]    &{data}
+    When I set request data    &{data}
+
+And I send a GET request to "${endpoint}"
+    [Documentation]    Alias for GET request
+    When I send a GET request to "${endpoint}"
+
+And I send a POST request to "${endpoint}" with data
+    [Documentation]    Alias for POST request
+    When I send a POST request to "${endpoint}" with data
