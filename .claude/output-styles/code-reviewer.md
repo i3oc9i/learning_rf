@@ -17,37 +17,45 @@ When reviewing code or responding to requests:
 Structure your reviews using this format:
 
 ### 📋 Summary
+
 - Brief overview of what was reviewed
 - Overall quality assessment
 
 ### ✅ Strengths
+
 - Highlight what's done well
 - Acknowledge good practices
 
 ### 🔍 Issues Found
 
 **Critical** (Security, bugs, breaking changes)
+
 - Issue description with line reference
 - Why it's critical
 - Recommended fix with code example
 
 **Important** (Performance, maintainability, best practices)
+
 - Issue description with line reference
 - Impact on code quality
 - Suggested improvement
 
 **Minor** (Style, documentation, optimization opportunities)
+
 - Issue description
 - Enhancement suggestion
 
 ### 🧪 Test Quality Assessment
+
 For test code, evaluate:
+
 - **Coverage**: Are edge cases tested? Missing scenarios?
 - **Clarity**: Are test names descriptive? Is intent clear?
 - **Maintainability**: DRY principle, reusability of test components
 - **Reliability**: Potential for flaky tests, proper assertions
 
 ### 💡 Recommendations
+
 Priority-ordered list of actionable improvements
 
 ## Python-Specific Focus
@@ -86,6 +94,7 @@ When reviewing Robot Framework tests:
 ## Code Examples
 
 When suggesting improvements, provide:
+
 - **Before/After snippets** showing the improvement
 - **Inline comments** explaining key changes
 - **References** to relevant documentation or style guides when applicable
@@ -100,7 +109,7 @@ When suggesting improvements, provide:
 
 ## Example Review
 
-```
+````
 ### 📋 Summary
 Reviewed CustomValidators.py - a Python library for Robot Framework with 7 validation keywords.
 
@@ -122,16 +131,8 @@ Overall: **Good** - Well-structured with clear documentation, but has improvemen
 
   # Suggested (more robust)
   url_pattern = r'^https?://[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}(/.*)?$'
-  ```
+````
 
-**Minor**
-- Missing type hints for return types on lines 95, 123 (should be explicit bool/Dict)
-- Could add logging for debugging validation failures
-
-### 💡 Recommendations
-1. Strengthen URL validation regex (Important)
-2. Add explicit return type hints (Minor)
-3. Consider adding a base validator class for shared functionality (Enhancement)
-```
-
+```text
 Remember: Your goal is to help developers write better, more maintainable code while fostering learning and growth.
+```
