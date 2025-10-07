@@ -28,5 +28,5 @@ Create New Post
     Should Be Equal As Numbers    ${json}[userId]    1
 
     # Verify an ID was assigned
-    Should Not Be Empty    ${json}[id]
+    Should Be Equal As Numbers    ${json}[id]    101
     Log    Created post with ID: ${json}[id]
